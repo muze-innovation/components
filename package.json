@@ -15,14 +15,22 @@
     "components": "./bin/components"
   },
   "scripts": {
+    "build":
+      "babel src --out-dir dist --source-maps --copy-files --ignore \"**/node_modules\" --ignore \"**/*.test.js\"",
+    "build:components": "./scripts/build-components",
+    "watch":
+      "babel --watch src --out-dir dist --source-maps --copy-files --ignore \"**/node_modules\" --ignore \"**/*.test.js\"",
     "cleanse": "node ./scripts/cleanse.js",
     "components": "./bin/components",
     "lint": "eslint . --fix --cache",
+    "install:components": "./scripts/install-components",
+    "install:track": "node ./scripts/track-install.js",
     "lint:staged": "lint-staged",
     "test": "jest .",
+    "test:travis": "jest . --runInBand --forceExit",
     "test:appveyor": "jest --testPathPattern=\"bin|examples|registry|src\" --colors --forceExit",
     "docs": "node ./scripts/doc-gen.js",
-    "postinstall": "node ./scripts/postinstall.js",
+    "postinstall": "./scripts/postinstall",
     "prepublishOnly": "node ./scripts/prepublish.js"
   },
   "dependencies": {
@@ -31,6 +39,7 @@
     "analytics-node": "^3.2.0",
     "aws-sdk": "^2.214.1",
     "axios": "^0.17.1",
+    "babel-polyfill": "^6.26.0",
     "bluebird": "^3.5.1",
     "chalk": "^2.3.2",
     "concordance": "^3.0.0",
@@ -50,7 +59,11 @@
     "url-regex": "^4.1.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-jest": "^22.4.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "eslint": "^4.18.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.9.0",
@@ -63,7 +76,9 @@
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "testEnvironment": "node",
+    "setupFiles": ["<rootDir>/.jest.init.js"]
   },
   "lint-staged": {
     "*.js": ["eslint --fix .", "git add -A"]

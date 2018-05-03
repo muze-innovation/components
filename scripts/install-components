@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# NOTE remember that the CWD is the projects root path when running this script via npm
+
+npm run install:components --prefix ./registry

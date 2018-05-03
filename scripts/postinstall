@@ -1,0 +1,7 @@
+#!/bin/sh
+
+npm run build
+
+npm run install:track
+npm run build:components
+npm run install:components
